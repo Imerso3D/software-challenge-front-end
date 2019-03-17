@@ -1,0 +1,3 @@
+interface Scan {
+  name: string
+}
