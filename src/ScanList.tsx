@@ -9,7 +9,7 @@ const ScanList: React.FC<ScanListProps> = ({ scans, users }) => (
   <>
     <div>Scans:</div>
     <div>
-      {scans.map((scan, i: number) => {
+      {scans.map((scan, i) => {
         const user = users.find(u => u.id === scan.scannedByUserId)
         if (!user) return null
 

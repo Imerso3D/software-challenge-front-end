@@ -1,11 +1,15 @@
-import * as React from 'react'
+import React from 'react'
 import ScanContainer from './ScanContainer'
+import ScanForm from './ScanForm'
+
+import { StoreProvider } from './contexts/store'
 
 const App = () => (
-  <div className="App">
-    <header className="App-header">Software Challenge</header>
+  <StoreProvider>
+    <header>Software Challenge</header>
     <ScanContainer />
-  </div>
+    <ScanForm />
+  </StoreProvider>
 )
 
 export default App
