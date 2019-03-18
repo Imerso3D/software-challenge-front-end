@@ -30,7 +30,10 @@ const ScanForm: React.FC<ScanFormProps> = ({ history, match }) => {
       dispatch({
         type: editing ? 'EDIT_SCAN' : 'ADD_SCAN',
         payload: {
-          scan: values,
+          scan: {
+            ...values,
+            scannedByUserId: parseInt(values.scannedByUserId.toString()), // TODO: Fixes type incompatibility due to select options being strings
+          },
           editableScanIndex,
         },
       })
