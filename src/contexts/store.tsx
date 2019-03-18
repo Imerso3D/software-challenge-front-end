@@ -48,7 +48,6 @@ const appReducer = (state: AppState, action: Action) => {
       )
       return state
     case 'SORT_BY':
-      console.log(action.payload)
       return R.assoc('sortBy', action.payload, state)
     default:
       return state
