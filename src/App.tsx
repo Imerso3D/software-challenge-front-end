@@ -1,14 +1,17 @@
 import React from 'react'
-import ScanContainer from './ScanContainer'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import ScanList from './ScanList'
 import ScanForm from './ScanForm'
 
 import { StoreProvider } from './contexts/store'
 
 const App = () => (
   <StoreProvider>
-    <header>Software Challenge</header>
-    <ScanContainer />
-    <ScanForm />
+    <Router>
+      <Route path="/" component={ScanList} exact />
+      <Route path="/add" component={ScanForm} exact />
+      <Route path="/edit/:index" component={ScanForm} exact />
+    </Router>
   </StoreProvider>
 )
 

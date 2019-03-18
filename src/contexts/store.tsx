@@ -23,12 +23,33 @@ const initialState: AppState = {
 
 export const StoreContext = React.createContext<AppState>(initialState)
 
+const alter = (scan: Scan, scanIndex: number, scans: Scan[]) =>
+  scans.map((iScan, index) => {
+    if (index !== scanIndex) {
+      return iScan
+    }
+    return scan
+  })
+
+const updateScans = R.assoc('scans')
+
 const appReducer = (state: AppState, action: Action) => {
   switch (action.type) {
     case 'ADD_SCAN':
-      return R.assoc('scans', R.append(action.payload, state.scans), state)
+      return updateScans(R.append(action.payload.scan, state.scans), state)
     case 'EDIT_SCAN':
+      return updateScans(
+        alter(
+          action.payload.scan,
+          action.payload.editableScanIndex,
+          state.scans
+        ),
+        state
+      )
       return state
+    case 'SORT_BY':
+      console.log(action.payload)
+      return R.assoc('sortBy', action.payload, state)
     default:
       return state
   }
@@ -37,9 +58,6 @@ const appReducer = (state: AppState, action: Action) => {
 export const StoreProvider = (props: any) => {
   const [contextValue, dispatch] = React.useReducer(appReducer, initialState)
   return (
-    <StoreContext.Provider
-      value={{...contextValue, dispatch}}
-      {...props}
-    />
+    <StoreContext.Provider value={{ ...contextValue, dispatch }} {...props} />
   )
 }
