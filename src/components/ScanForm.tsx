@@ -10,8 +10,8 @@ import {
 import * as R from 'ramda'
 import styled from '@emotion/styled'
 
-import Button from './components/Button'
-import { StoreContext } from './contexts/store'
+import Button from './Button'
+import { StoreContext } from '../contexts/store'
 
 const FormContainer = styled.div`
   input,
@@ -78,7 +78,7 @@ const ScanForm: React.FC<ScanFormProps> = ({ history, match }) => {
               render={({ field, form }: FieldProps<FormValues>) => (
                 <FieldContainer>
                   <label htmlFor="name">Name: </label>
-                  <input type="text" {...field} placeholder="Name" />
+                  <input type="text" {...field} placeholder="Name" required/>
                   {form.touched.name && form.errors.name && form.errors.name}
                 </FieldContainer>
               )}
@@ -93,6 +93,7 @@ const ScanForm: React.FC<ScanFormProps> = ({ history, match }) => {
                     {...field}
                     placeholder="Elevation min"
                     step="0.01"
+required
                   />
                   {form.touched.elevationMin &&
                     form.errors.elevationMin &&
@@ -110,6 +111,7 @@ const ScanForm: React.FC<ScanFormProps> = ({ history, match }) => {
                     {...field}
                     placeholder="Elevation max"
                     step="0.01"
+required
                   />
                   {form.touched.elevationMax &&
                     form.errors.elevationMax &&

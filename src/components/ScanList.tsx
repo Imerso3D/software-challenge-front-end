@@ -3,8 +3,8 @@ import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import * as R from 'ramda'
 
-import Button from './components/Button'
-import { StoreContext } from './contexts/store'
+import Button from './Button'
+import { StoreContext } from '../contexts/store'
 
 const ScanListGrid = styled.div`
   display: grid;
