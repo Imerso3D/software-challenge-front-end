@@ -1,41 +1,9 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
-import * as R from 'ramda'
 
-import Button from './Button'
-import { StoreContext } from '../contexts/store'
-
-const ScanListGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  align-items: center;
-
-  > div {
-    padding: 8px;
-  }
-
-  > a {
-    cursor: pointer;
-    text-decoration: none;
-    > button {
-      width: 50px;
-    }
-  }
-`
-
-const AddScanLink = styled(Link)`
-  color: cornflowerblue;
-  text-decoration: none;
-  margin: 8px 8px 24px;
-  display: block;
-`
-
-const Header = styled.div`
-  padding: 16px;
-  font-weight: bold;
-  cursor: pointer;
-`
+import { ScanListGrid, AddScanLink, Header } from './styled'
+import Button from '../Button'
+import { StoreContext } from '../../contexts/store'
 
 interface SortFunctions {
   [key: string]: (scan1: Scan, scan2: Scan) => number

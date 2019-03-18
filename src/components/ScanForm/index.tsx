@@ -7,30 +7,9 @@ import {
   Field,
   FieldProps,
 } from 'formik'
-import * as R from 'ramda'
-import styled from '@emotion/styled'
+import { FormContainer, FieldContainer, SubmitButton } from './styled'
 
-import Button from './Button'
-import { StoreContext } from '../contexts/store'
-
-const FormContainer = styled.div`
-  input,
-  select {
-    padding: 8px;
-    margin: 4px;
-  }
-`
-
-const FieldContainer = styled.div`
-  display: flex;
-  width: 300px;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const SubmitButton = styled(Button)`
-  margin: 16px 0;
-`
+import { StoreContext } from '../../contexts/store'
 
 interface FormValues extends Scan {}
 
@@ -78,7 +57,7 @@ const ScanForm: React.FC<ScanFormProps> = ({ history, match }) => {
               render={({ field, form }: FieldProps<FormValues>) => (
                 <FieldContainer>
                   <label htmlFor="name">Name: </label>
-                  <input type="text" {...field} placeholder="Name" required/>
+                  <input type="text" {...field} placeholder="Name" required />
                   {form.touched.name && form.errors.name && form.errors.name}
                 </FieldContainer>
               )}
@@ -93,7 +72,7 @@ const ScanForm: React.FC<ScanFormProps> = ({ history, match }) => {
                     {...field}
                     placeholder="Elevation min"
                     step="0.01"
-required
+                    required
                   />
                   {form.touched.elevationMin &&
                     form.errors.elevationMin &&
@@ -111,7 +90,7 @@ required
                     {...field}
                     placeholder="Elevation max"
                     step="0.01"
-required
+                    required
                   />
                   {form.touched.elevationMax &&
                     form.errors.elevationMax &&
