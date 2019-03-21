@@ -97,7 +97,7 @@ class SimpleDialog extends React.Component {
                 onChange={this.handleUserName}
               />
             </ListItem>
-            <Button variant="contained" onClick={this.handleSaveChanges} style={{'marginLeft':'30%'}}>
+            <Button variant="contained" onClick={this.handleSaveChanges} style={{'marginLeft':'30%', 'background-color':'gray'}}>
               <SaveIcon />
               <ListItemText primary="Save" />
             </Button>
