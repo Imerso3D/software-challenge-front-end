@@ -78,26 +78,26 @@ class SimpleDialog extends React.Component {
     const {materialType, username, ...other } = this.props;
     return (
       <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
-        <DialogTitle id="simple-dialog-title">Edit Scan</DialogTitle>
+        <DialogTitle id="simple-dialog-title">Edit Scan or User's name</DialogTitle>
         <div>
           <List>
             <ListItem button>
               <TextField
                 id="materialTypeId"
-                label="Material"
+                label="Scan name"
                 defaultValue={materialType}
                 margin="normal"
                 onChange={this.handleMaterialType}
               />
               <TextField
                 id="usernameId"
-                label="User"
+                label="User name"
                 defaultValue={username}
                 margin="normal"
                 onChange={this.handleUserName}
               />
             </ListItem>
-            <Button variant="contained" onClick={this.handleSaveChanges}>
+            <Button variant="contained" onClick={this.handleSaveChanges} style={{'marginLeft':'30%'}}>
               <SaveIcon />
               <ListItemText primary="Save" />
             </Button>
