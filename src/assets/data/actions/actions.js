@@ -7,7 +7,7 @@ export const addScan = content => ({
     }
 });
 
-export const EditScan = content => ({
+export const editScan = content => ({
     type: EDIT_SCAN,
     payload: {
              content
@@ -21,7 +21,7 @@ export const addUser = content => ({
     }
 });
 
-export const EditUser = content => ({
+export const editUser = content => ({
     type: EDIT_USER,
     payload: {
         content

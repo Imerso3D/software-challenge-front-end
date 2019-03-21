@@ -9,31 +9,72 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import SaveIcon from '@material-ui/icons/Save';
 import { EditIcon } from "../../assets/image/Icons";
-import { addScan, addUser } from "../../assets/data/actions/actions";
+import { editScan, editUser } from "../../assets/data/actions/actions";
 
 class SimpleDialog extends React.Component {
+  state={formerScan:this.props.materialType,currentScan:this.props.materialType,formerUser: this.props.username, currentUser:this.props.username};
+
   handleClose = () => {
-    this.props.onClose(this.props.selectedValue);
+    const {onClose, selectedValue} = this.props;
+    onClose(selectedValue);
   };
 
   handleMaterialType = e => {
-    console.log('Event value: ', e.target.value);
+    const v = e.target.value;
+    if(e==='')
+      this.setState({currentScan: this.state.currentScan});
+    else
+      this.setState({currentScan: v});
+  };
+
+  handleUserName = e => {
+    const v = e.target.value;
+    if(e==='')
+      this.setState({currentUser: this.state.currentUser});
+    else
+      this.setState({currentUser: v});
   };
 
   handleSaveChanges = e => {
-    console.log('Event value: ', e.target.value);
+    const {currentScan, currentUser} = this.state;
+    const {scansList, usersList, eid, uid, elevationMax, elevationMin, materialType, username, editNewScan, editNewUser} = this.props;
+    const newScanList = scansList;
+    const newUserList = usersList;
 
-    const newChangedScan = {
-      name: 'Sample',
-      elevationMax: 0.1,
-      elevationMin: 9.0,
-      scannedByUserId: 2,
+    const oldScan ={
+      name: materialType,
+      elevationMax,
+      elevationMin,
+      scannedByUserId: uid
     };
-    this.props.addNewScan(newChangedScan)
+    const oldUser={
+      id:uid,
+      name:username
+    };
+
+    let newScan = oldScan;
+    let newUser = oldUser;
+
+    const scanIndex = eid;
+    const userIndex = uid;
+
+    if(currentScan !== materialType)
+    {
+      newScan = {...oldScan, name:currentScan};
+      newScanList[scanIndex] = newScan;
+      editNewScan(newScanList);
+    }
+    if(currentUser !== username)
+    {
+      newUser = {...oldUser, name: currentUser};
+      newUserList[userIndex] = newUser;
+      editNewUser(newUserList);
+    }
+
+    this.handleClose();
   };
 
   render() {
-    console.log('Props from Redux: ', this.props.usersList);
     const {materialType, username, ...other } = this.props;
     return (
       <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
@@ -53,7 +94,7 @@ class SimpleDialog extends React.Component {
                 label="User"
                 defaultValue={username}
                 margin="normal"
-                onChange={this.handleMaterialType}
+                onChange={this.handleUserName}
               />
             </ListItem>
             <Button variant="contained" onClick={this.handleSaveChanges}>
@@ -70,8 +111,8 @@ class SimpleDialog extends React.Component {
 
 const mapDispatchToProps =dispatch=>
   ({
-    addNewScan: (v) => dispatch(addScan(v)),
-    addNewUser: (v) => dispatch(addUser(v))
+    editNewScan: (v) => dispatch(editScan(v)),
+    editNewUser: (v) => dispatch(editUser(v))
   });
 const mapStateToProps=state=>
   ({
@@ -97,16 +138,21 @@ class ScanModal extends React.Component {
   };
 
   render() {
-
+    const {open, selectedValue} = this.state;
+    const {materialType, username, elevationMax, elevationMin, uid,eid} = this.props;
     return (
       <div>
         <a variant="outlined" color="primary" onClick={this.handleClickOpen}><EditIcon /></a>
         <SimpleDialogWrapped
-          selectedValue={this.state.selectedValue}
-          open={this.state.open}
+          selectedValue={selectedValue}
+          open={open}
           onClose={this.handleClose}
-          materialType={this.props.materialType}
-          username={this.props.username}
+          materialType={materialType}
+          username={username}
+          elevationMax={elevationMax}
+          elevationMin={elevationMin}
+          uid={uid}
+          eid={eid}
         />
       </div>
     );

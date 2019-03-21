@@ -39,7 +39,7 @@ const ScanList = (props) =>{
             {scans.map((scan, i) => {
                         const user = users.find(u => u.id === scan.scannedByUserId);
               if (user!==undefined)
-                        return <ScanElement key={i} scans={scans} materialType={scan.name} username={user.name} elevationMax={scan.elevationMax} elevationMin={scan.elevationMin} />
+                        return <ScanElement key={i} eid={i} scans={scans} materialType={scan.name} uid={scan.scannedByUserId} username={user.name} elevationMax={scan.elevationMax} elevationMin={scan.elevationMin} />
               else return null;
             })}
       </div>
