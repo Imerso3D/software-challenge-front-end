@@ -1,59 +1,118 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import {EditIcon} from "../../assets/image/Icons";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import TextField from '@material-ui/core/TextField';
+import ListItemText from '@material-ui/core/ListItemText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import SaveIcon from '@material-ui/icons/Save';
+import blue from '@material-ui/core/colors/blue';
+import { EditIcon } from "../../assets/image/Icons";
+import { addScan, addUser } from "../../assets/data/actions/actions";
 
-function rand() {
-    return Math.round(Math.random() * 20) - 10;
+const styles = {
+  avatar: {
+    backgroundColor: blue[100],
+    color: blue[600],
+  },
+};
+
+class SimpleDialog extends React.Component {
+  handleClose = () => {
+    this.props.onClose(this.props.selectedValue);
+  };
+
+  handleListItemClick = value => {
+    this.props.onClose(value);
+  };
+
+  handleMaterialType = e => {
+    console.log('Event value: ', e.target.value);
+  };
+
+  handleSaveChanges = e => {
+    console.log('Event value: ', e.target.value);
+    this.props.addNewScan({
+      name: 'Villa',
+      elevationMax: 3.3,
+      elevationMin: 0.05,
+      scannedByUserId: 0,
+    })
+  };
+
+  render() {
+    const {materialType, username, ...other } = this.props;
+    return (
+      <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
+        <DialogTitle id="simple-dialog-title">Edit Scan</DialogTitle>
+        <div>
+          <List>
+              <ListItem button >
+                <TextField
+                  id="materialTypeId"
+                  label="Material"
+                  defaultValue={materialType}
+                  margin="normal"
+                  onChange={this.handleMaterialType}
+                />
+                <TextField
+                  id="usernameId"
+                  label="User"
+                  defaultValue={username}
+                  margin="normal"
+                  onChange={this.handleMaterialType}
+                />
+              </ListItem>
+            <ListItem button onClick={() => this.handleSaveChanges}>
+                  <SaveIcon />
+              <ListItemText primary="Save" />
+            </ListItem>
+          </List>
+        </div>
+      </Dialog>
+    );
+  }
 }
-
-function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
-
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
-
-const styles = theme => ({
-    paper: {
-        position: 'absolute',
-        width: theme.spacing.unit * 50,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing.unit * 4,
-        outline: 'none',
-    },
-});
 
 class ScanModal extends React.Component {
-    render() {
-        const { classes } = this.props;
-        const {scans, users,elementIndex, materialType } = this.props;
-        console.log('open status: ', this.props.open)
-        return (
-          <div>
-              <input type='text' defaultValue={materialType} value={materialType} onClick={this.props.openModal} /><EditIcon />
-            <Modal
-              aria-labelledby="simple-modal-title"
-              aria-describedby="simple-modal-description"
-              open={false}
-              onClose={this.props.closeModal}
-            >
-              <div style={getModalStyle()} className={classes.paper}>
-                <div>
-                  <p value={scans[elementIndex].name}>{scans[elementIndex].name}</p>
-                </div>
-              </div>
-            </Modal>
-          </div>
-        );
-    }
+  state = {
+    open: false,
+  };
+
+  handleClickOpen = () => {
+    this.setState({
+      open: true,
+    });
+  };
+
+  handleClose = value => {
+    this.setState({ selectedValue: value, open: false });
+  };
+
+  render() {
+    console.log('Props from Redux: ', this.props.users);
+    return (
+      <div>
+        <a variant="outlined" color="primary" onClick={this.handleClickOpen}><EditIcon/></a>
+        <SimpleDialog
+          selectedValue={this.state.selectedValue}
+          open={this.state.open}
+          onClose={this.handleClose}
+          materialType={this.props.materialType}
+          username={this.props.username}
+          addNewScan={this.props.addNewScan}
+        />
+      </div>
+    );
+  }
 }
 
-const SimpleModalWrapped = withStyles(styles)(ScanModal);
+const mapDispatchToProps =dispatch=>
+  ({
+    addNewScan: (v) => dispatch(addScan(v)),
+    addNewUser: (v) => dispatch(addUser(v))
+  });
 
-export default SimpleModalWrapped;
+export default connect(mapDispatchToProps)(ScanModal);

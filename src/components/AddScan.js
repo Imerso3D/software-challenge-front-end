@@ -6,79 +6,138 @@ import {addScan, addUser} from "../assets/data/actions/actions";
 import './rootScansStyle.css';
 
 class AddScan extends React.Component{
-state={  newScan: {
-        name: '',
+state={
+        newMaterialname: '',
+        elevationMax: 0,
+        elevationMin: 0,
+        scannedByUserId: this.props.users.length,
+        newUserid: this.props.users.length,
+        newUserName: '',
+        dataReady: true,
+        dataUserReady: true
+    };
+
+
+    handleMaterialName= (e) => {
+        this.setState({newMaterialname: e.target.value});
+      if(this.state.newMaterialname ==='')
+        this.setState({dataReady: true});
+      else
+        this.setState({dataReady: false});
+
+    };
+  handleMaterialUserId= (e) => {
+    this.setState({scannedByUserId: e.target.value });
+  };
+
+     handleElevationMax=(e)=> {
+       this.setState({elevationMax: e.target.value});
+    };
+
+    handleElevationMin=(e)=> {
+      this.setState({elevationMin: e.target.value});
+    };
+
+    handleAddNewScan=(event)=>{
+
+      let newScanData = {
+        name: this.state.newMaterialname,
+        elevationMax: Number(this.state.elevationMax),
+        elevationMin: Number(this.state.elevationMin),
+        scannedByUserId: Number(this.state.scannedByUserId),
+      };
+      if(this.state.newMaterialname ==='')
+        this.setState({dataReady: true});
+      else
+      {
+        this.setState({dataReady: false});
+        this.props.addNewScan(newScanData);
+        this.handleClearScanToBe();
+      }
+    };
+
+    handleClearScanToBe=()=>{
+      this.setState({ newMaterialname: '',
         elevationMax: 0,
         elevationMin: 0,
         scannedByUserId: 1,
-    }, newUser:{
-        id: 0,
-        name: '',
-        }
+        newUserid: this.props.users.length+1,
+        dataReady: true,
+      })
     };
 
+  handleNewUserName=(e)=> {
+    this.setState({newUserName: e.target.value});
+    if(this.state.newUserName ==='')
+      this.setState({dataUserReady: true});
+    else
+      this.setState({dataUserReady: false});
+  };
 
-    handleMaterial= (e) => {
-
+  handleNewUserAddition=()=>{
+    let id = this.props.users.length + 1;
+    let newScanData = {
+      id: Number(id),
+      name: this.state.newUserName,
     };
+    if(this.state.newUserName ==='')
+      this.setState({dataUserReady: true});
+    else
+    {
+      this.setState({dataUserReady: false});
+      this.props.addNewUser(newScanData);
+      this.handleClearUserFields();
+    }
+  };
 
-     subtractNumberHere= () => {
-        console.log('user Now', this.props.scans);
-    };
+  handleClearUserFields=()=>{
+    this.setState({
+      newUserName: '',
+      dataUserReady: true
+    })
+  };
 
-     handleName= (event) => {
 
-    };
-
-     handleElevationMax=(event)=> {
-
-    };
-
-    handleElevationMin=(event)=> {
-
-    };
-
-    handleScannedByUserId=(event)=>{
-    };
-
-    render (){
+  render (){
         return (<div style={{display: 'flex', margin:'30px 60px 30px 60px'}}>
           <div style={{display: 'grid', width: '100%', padding:'20px'}}>
             <TextField
               id="material"
               label="Material Type"
-              defaultValue="house"
               margin="normal"
-              onChange={this.handleMaterial}
+              value={this.state.newMaterialname}
+              onChange={this.handleMaterialName}
             />
             <TextField
               id="user"
-              label="Person name"
-              defaultValue="person name"
+              label="Person Id"
+              inputProps={{ min: "1", max: this.state.scannedByUserId, step: "1" }}
+              value={this.state.scannedByUserId}
+              type='number'
               margin="normal"
-              onChange={this.handleScannedByUserId}
+              onChange={this.handleMaterialUserId}
             />
             <TextField
               id="elevationMax"
               label="Maximum Elivation"
               type='number'
-              defaultValue="2"
+              defaultValue={this.state.elevationMax}
               margin="normal"
               onChange={this.handleElevationMax}
             />
             <TextField
               id="elevationMin"
-              label="Maximum Elivation"
+              label="Minimum Elevation"
               type='number'
-              defaultValue="0"
+              defaultValue={this.state.elevationMin}
               margin="normal"
               onChange={this.handleElevationMin}
             />
             <div>
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary" disabled={this.state.dataReady}  onClick={this.handleAddNewScan}>
                     Add Scan
               </Button>
-              <Button variant="contained">
+              <Button variant="contained" onClick={this.handleClearScanToBe} >
                     Clear
               </Button>
             </div>
@@ -86,9 +145,10 @@ state={  newScan: {
           <div style={{display: 'grid', width: '100%', padding: '20px'}}>
             <TextField
               id="userfullname"
-              label="User full"
-              defaultValue="Yonatan Fessehaye"
+              label="Yonatan Fessehaye"
               margin="normal"
+              value={this.state.newUserName}
+              onChange={this.handleNewUserName}
             />
             <TextField
               id="useremail"
@@ -97,24 +157,16 @@ state={  newScan: {
               margin="normal"
             />
             <TextField
-              id="elevationMax"
-              label="Maximum Elivation"
-              type='number'
-              defaultValue="2"
-              margin="normal"
-              onChange={this.handleElevationMax}
-            />
-            <TextField
               id="usercontact"
               label="Telephone"
               type='number'
               defaultValue="40998418"
             />
             <div>
-              <Button variant="contained" color="secondary">
+              <Button variant="contained" color="secondary" disabled={this.state.dataUserReady} onClick={this.handleNewUserAddition}>
                             Add User
               </Button>
-              <Button variant="contained">
+              <Button variant="contained" onClick={this.handleClearUserFields}>
                             Clear
               </Button>
             </div>
@@ -128,7 +180,6 @@ const mapStateToProps=state=>
     ({
         scans: state.allScans,
         users: state.allUsers,
-        number: state.count,
     });
 
 const mapDispatchToProps =dispatch=>

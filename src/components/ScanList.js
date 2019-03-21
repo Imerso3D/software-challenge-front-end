@@ -3,7 +3,7 @@ import React from 'react';
 import {Tabs,Tab,ListItem,ListItemText} from  '@material-ui/core';
 
 import './rootScansStyle.css';
-
+import ScanModal from './common/Modal';
 const  ScanHeader = (props) => (
   <Tabs width={200} onChange={props.handleSort}>
     <Tab label='Material Type' value='material' />
@@ -26,17 +26,19 @@ const ScanElement = (props) => {
         <ListItemText primary={props.username} />
         <ListItemText primary={props.elevationMax} />
         <ListItemText primary={props.elevationMin} />
+        <ScanModal {...props} />
       </ListItem>
     );
 };
 
 const ScanList = (props) =>{
+  const {scans, users} = props;
     return (
       <div>
             <ScanHeader handleSort={props.handleSort} />
-            {props.scans.map((scan, i) => {
-                        const user = props.users.find(u => u.id === scan.scannedByUserId);
-                        return <ScanElement key={i} scans={props.scans} materialType={scan.name} username={user.name} elevationMax={scan.elevationMax} elevationMin={scan.elevationMin} />
+            {scans.map((scan, i) => {
+                        const user = users.find(u => u.id === scan.scannedByUserId);
+                        return <ScanElement key={i} scans={scans} materialType={scan.name} username={user.name} elevationMax={scan.elevationMax} elevationMin={scan.elevationMin} />
                     })}
       </div>
     );

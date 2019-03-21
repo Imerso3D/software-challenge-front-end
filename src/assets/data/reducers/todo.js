@@ -11,6 +11,7 @@ export default function(state = initialState, action) {
     switch (action.type) {
          case ADD_SCAN: {
             const { content } = action.payload;
+           console.log('Payload:',content );
             return {
                 ...state,
                 allScans: [...state.allScans, content],
@@ -18,6 +19,7 @@ export default function(state = initialState, action) {
         }
         case ADD_USER: {
             const { content } = action.payload;
+            console.log('Payload:',content );
             return {
                 ...state,
                 allUsers: [...state.allUsers, content],
