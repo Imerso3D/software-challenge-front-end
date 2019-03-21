@@ -38,8 +38,10 @@ const ScanList = (props) =>{
             <ScanHeader handleSort={props.handleSort} />
             {scans.map((scan, i) => {
                         const user = users.find(u => u.id === scan.scannedByUserId);
+              if (user!==undefined)
                         return <ScanElement key={i} scans={scans} materialType={scan.name} username={user.name} elevationMax={scan.elevationMax} elevationMin={scan.elevationMin} />
-                    })}
+              else return null;
+            })}
       </div>
     );
 };
@@ -70,7 +72,7 @@ class Scan extends React.Component{
 
 
     render(){
-      return  <ScanList {...this.state} handleSort={this.handleSort}  />;
+      return  <ScanList {...this.state} handleSort={this.handleSort} />;
     }
 }
 

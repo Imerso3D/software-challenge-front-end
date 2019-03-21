@@ -10,7 +10,7 @@ state={
         newMaterialname: '',
         elevationMax: 0,
         elevationMin: 0,
-        scannedByUserId: this.props.users.length,
+        scannedByUserId: 1,
         newUserid: this.props.users.length,
         newUserName: '',
         dataReady: true,
@@ -61,7 +61,7 @@ state={
         elevationMax: 0,
         elevationMin: 0,
         scannedByUserId: 1,
-        newUserid: this.props.users.length+1,
+        newUserid: this.props.users.length,
         dataReady: true,
       })
     };
@@ -75,7 +75,7 @@ state={
   };
 
   handleNewUserAddition=()=>{
-    let id = this.props.users.length + 1;
+    let id = this.props.users.length;
     let newScanData = {
       id: Number(id),
       name: this.state.newUserName,
@@ -111,10 +111,10 @@ state={
             <TextField
               id="user"
               label="Person Id"
-              inputProps={{ min: "1", max: this.state.scannedByUserId, step: "1" }}
+              inputProps={{ min: 1, max: this.props.users.length-1}}
               value={this.state.scannedByUserId}
+              defaultValue={this.props.users.length}
               type='number'
-              margin="normal"
               onChange={this.handleMaterialUserId}
             />
             <TextField
