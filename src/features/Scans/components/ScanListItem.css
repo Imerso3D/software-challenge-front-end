@@ -1,0 +1,8 @@
+.ScanListItem {
+    padding: 10px;
+}
+
+.UserName {
+    padding: 10px;
+    font-size: calc(10px + 0.5vmin);
+}

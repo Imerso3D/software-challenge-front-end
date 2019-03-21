@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import ScanContainer from "./features/ScanContainer";
+import ScanContainer from "./features/Scans/ScanContainer";
 
 class App extends Component {
 
