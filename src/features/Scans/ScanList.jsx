@@ -36,7 +36,6 @@ class ScanList extends React.Component {
 
     onMarkEditScanItem = (id) => {
         this.setState((state) => ({ editing: [...state.editing, id] }));
-        console.log("editing", this.state.editing)
       }
 
     onEditScanItem = (updatedScanItem) => {
@@ -50,7 +49,7 @@ class ScanList extends React.Component {
         const { sortBy, scans, editing } = this.state;
         const { users } = this.props;
         const scansPopulated = populateScans(scans, users);
-        console.log("LIST", scansPopulated)
+        
         const listItems = scansPopulated
             .sort(SORTERS[sortBy])
             .map((scan, i) => 
@@ -69,22 +68,25 @@ class ScanList extends React.Component {
             );
 
         return (
-            <div>
-                <div className="Header">
-                    Scans:
-                </div>
+            <div className="Container">
+                <div className="Header">Add new header:</div>
                 <AddScanListItem
                     users={users}
                     onAddScanItem={this.onAddScanItem} 
                 />
-                <div>
-                    <button onClick={() => this.setState({sortBy:'name'})}>Name</button>
-                    <button onClick={() => this.setState({sortBy:'username'})}>User Name</button>
-                    <button onClick={() => this.setState({sortBy:'elevation'})}>Elevation</button>
-                </div>
-                <div className="ScanList">
-                    {listItems}
-                </div>
+                <div className="Header">Scans:</div>
+                <table className="ScanList">
+                    <thead>
+                        <tr>
+                            <td><button onClick={() => this.setState({sortBy:'name'})}>Sort by Name</button></td>
+                            <td><button onClick={() => this.setState({sortBy:'username'})}>Sort by User Name</button></td>
+                            <td><button onClick={() => this.setState({sortBy:'elevation'})}>Sort by Elevation</button></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listItems}
+                    </tbody>
+                </table>
             </div>
         );
     }

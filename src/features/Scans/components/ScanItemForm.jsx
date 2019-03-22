@@ -16,19 +16,19 @@ class ScanItemForm extends React.Component {
 
 	onSelectUser = (e) => {
 		this.setState({
-			scannedByUserId: e.target.value
+			scannedByUserId: e.target.value ? parseInt(e.target.value) : ''
 		});
 	}
 
 	onElevationMinChange = (e) => {
 		this.setState({
-			elevationMin: parseInt(e.target.value.toString())
+			elevationMin: e.target.value ? parseFloat(e.target.value) : ''
 		});
 	}
 
 	onElevationMaxChange = (e) => {
 		this.setState({
-			elevationMax: parseInt(e.target.value.toString())
+			elevationMax: e.target.value ? parseFloat(e.target.value) : ''
 		});
 	}
 
@@ -44,8 +44,10 @@ class ScanItemForm extends React.Component {
 	
 	render() {
 		const { users } = this.props;
-
-		const userOptions = users.map((user, i) => <option key={i} value={user.id}>{user.name}</option>);
+		const userOptions = [ 
+			<option key="-1" value="">--Select User--</option>, 
+			...users.map((user, i) => <option key={user.id} value={user.id}>{user.name}</option>)
+		];
 		const selectUser = (
 			<select 
 				value={this.state.scannedByUserId}
@@ -69,14 +71,14 @@ class ScanItemForm extends React.Component {
 					/>
 					{selectUser}
 					<input
-						type="text"
+						type="number"
 						value={this.state.elevationMin}
 						onChange={this.onElevationMinChange}
 						placeholder="Elevation Min"
 						required
 					/>
 					<input
-						type="text"
+						type="number"
 						value={this.state.elevationMax}
 						onChange={this.onElevationMaxChange}
 						placeholder="Elevation Max"

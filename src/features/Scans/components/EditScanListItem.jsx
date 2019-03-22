@@ -2,13 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ScanItemForm from './ScanItemForm';
+import './EditScanListItem.css'
 		
 const EditScanListItem = (props) => (
-	<ScanItemForm 
-		scan={props.scan}
-		users={props.users}
-		onFormSubmit={props.onEditScanItem}
-	/>
+	<tr className="ScanListItem">
+		<td colSpan="4">
+			<ScanItemForm 
+				scan={props.scan}
+				users={props.users}
+				onFormSubmit={props.onEditScanItem}
+			/>
+		</td>
+	</tr>
 );
 
 EditScanListItem.propTypes = {
@@ -18,7 +23,10 @@ EditScanListItem.propTypes = {
 		name: PropTypes.string,
 		elevationMin: PropTypes.number,
 		elevationMax: PropTypes.number,
-		scannedByUserId: PropTypes.number,
+		scannedByUserId: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		  ]),
 		scannedByUserName: PropTypes.string,
 	}),
 	users: PropTypes.arrayOf(PropTypes.shape({

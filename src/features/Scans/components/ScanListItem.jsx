@@ -8,14 +8,12 @@ const ScanListItem = (props) => {
 	const onMarkEdit = () => { props.onMarkEditScanItem(props.scan.id) }
 	
 	return (
-		<div className="ScanListItem">
-			<span>{props.scan.name}</span>
-			<span className="UserName">
-				by {props.scan.scannedByUserName}
-			</span>
-			<span>{`${props.scan.elevationMin} - ${props.scan.elevationMax}`}</span>
-			<button onClick={onMarkEdit}>Edit</button>
-		</div>
+		<tr className="ScanListItem">
+			<td>{props.scan.name}</td>
+			<td>by {props.scan.scannedByUserName}</td>
+			<td>{`${props.scan.elevationMin} - ${props.scan.elevationMax}`}</td>
+			<td><button onClick={onMarkEdit}>Edit</button></td>
+		</tr>
 	);
 };
 
@@ -26,7 +24,10 @@ ScanListItem.propTypes = {
 		name: PropTypes.string,
 		elevationMin: PropTypes.number,
 		elevationMax: PropTypes.number,
-		scannedByUserId: PropTypes.number,
+		scannedByUserId: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		  ]),
 		scannedByUserName: PropTypes.string,
 	})
 };
