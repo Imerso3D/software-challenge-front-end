@@ -1,45 +1,49 @@
 import React from "react";
-import {Modal} from "react-bootstrap";
+import {Modal, Button} from "react-bootstrap";
 
-const ItemModal = ({scan, onItemChange, ...rest}) => {
+const AddItemModal = ({scan, onItemChange, onSubmit, ...rest}) => {
+
+    console.log('scan:',scan);
 
     return (
         <Modal {...rest} bsSize="large">
             <Modal.Header closeButton>
-                <Modal.Title>Edit {scan.name}</Modal.Title>
+                <Modal.Title>Add new scan</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <input
                     type="text"
                     value={scan.name}
                     name="name"
-                    onChange={onItemChange(scan.id)}
+                    onChange={onItemChange}
                 />
                 <input
                     type="text"
                     value={scan.userName}
                     name="userName"
-                    onChange={onItemChange(scan.id)}
+                    onChange={onItemChange}
                 />
                 <input
-                    type="number"
+                    type="text"
                     value={scan.elevationMax}
-                    step={0.01}
+                    pattern={"[\\d{1,4}.\\d{1,3}]{1,7}"}
                     name="elevationMax"
-                    onChange={onItemChange(scan.id)}
+                    onChange={onItemChange}
                 />
                 <input
-                    type="number"
+                    type="text"
                     value={scan.elevationMin}
-                    step={0.01}
+                    pattern={"[\\d{1,4}*.*\\d{1,3}]{1,7}"}
                     name="elevationMin"
-                    onChange={onItemChange(scan.id)}
+                    onChange={onItemChange}
                 />
 
             </Modal.Body>
+            <Button variant="secondary">Close</Button>
+            <Button variant="primary" onClick={onSubmit}>Save changes</Button>
             <Modal.Footer/>
         </Modal>
     );
 };
 
-export default ItemModal;
+export default AddItemModal;

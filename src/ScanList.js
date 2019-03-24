@@ -1,10 +1,12 @@
 import React from 'react';
 import {Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css'
+import uuid from "uuid";
 
 //local dependencies
 import './ScanList.css'
 import ItemModal from './ItemModal';
+import AddItemModal from './AddItemModal';
 import {createFullScansList} from "./fullScansList";
 
 class ScanList extends React.Component {
@@ -14,6 +16,15 @@ class ScanList extends React.Component {
         this.state = {
             scansList: createFullScansList(),
             isReverse: false,
+            isModalOpen: false,
+            temporaryItem: {
+                id: null,
+                name: null,
+                userName: null,
+                elevationMax: null,
+                elevationMin: null,
+                showModal: false
+            }
         };
         this.toItemChange = this.toItemChange.bind(this);
     };
@@ -44,6 +55,14 @@ class ScanList extends React.Component {
             })
     };
 
+    modalShow = () => {
+        this.setState({isModalOpen: true});
+    };
+
+    handleModalHide = () => {
+        this.setState({isModalOpen: false})
+    };
+
     toFormUpdate() {
         return e => {
             const field = e.target.name;
@@ -60,7 +79,7 @@ class ScanList extends React.Component {
                 ...scan,
                 showModal: false,
             }));
-             this.setState({ scansList })
+            this.setState({scansList})
         }
     }
 
@@ -86,7 +105,7 @@ class ScanList extends React.Component {
 
     toItemChange(itemId) {
         return e => {
-            console.log('itemId: ',itemId);
+            console.log('itemId: ', itemId);
             let {scansList} = this.state;
             scansList = scansList.map(item => {
                 if (item.id === itemId) {
@@ -98,13 +117,36 @@ class ScanList extends React.Component {
         }
     }
 
+    toAddItem(itemId) {
+        return e => {
+            console.log('itemId: ', itemId);
+            let {temporaryItem} = this.state;
+            temporaryItem[e.target.name] = e.target.value;
+            this.setState({temporaryItem});
+            console.log('temporaryItem: ', temporaryItem);
+        }
+    }
+
+    toSubmitAddingItem() {
+        let {scansList, ...temporaryItem} = this.state;
+        temporaryItem.id = uuid.v4();
+        scansList.assign(temporaryItem);
+        this.setState({
+                temporaryItem,
+                scansList
+            }
+        );
+    }
+
     render() {
         const {
             scansList,
             isReverse,
+            isModalOpen,
+            temporaryItem,
         } = this.state;
 
-        console.log('scansList: ',scansList);
+        console.log('scansList: ', scansList);
         const items = scansList.map((scan, index) =>
             <tr key={index}>
                 <td>{index + 1}</td>
@@ -133,18 +175,20 @@ class ScanList extends React.Component {
             />
         ));
 
-        /*const addNewScan = () => (
-            <ItemModal
-                key={index}
-                show={scan.showModal}
-                onHide={this.toModalHide()}
-                onItemChange={this.toItemChange}
-                scan={scan}
+        const addNewScan = (
+            <AddItemModal
+                show={isModalOpen}
+                onHide={this.handleModalHide}
+                onItemChange={this.toAddItem}
+                onSubmit={this.toSubmitAddingItem}
+                scan={temporaryItem}
             />
         );
-*/
+
         return (
             <React.Fragment>
+                <Button onClick={this.modalShow} className="btn btn-primary">Add new scan</Button>
+                {addNewScan}
                 <row>
                     <Button onClick={() => this.sortScanList(scansList, 'name', false, isReverse,)}
                             className="btn btn-primary">Sort by
@@ -169,47 +213,8 @@ class ScanList extends React.Component {
                 </table>
                 {itemsButtons}
             </React.Fragment>
-    );
-    }
-    }
-
-    export default ScanList;
-
-
-/*import React from 'react';
-import './ScanList.css'
-
-
-class ScanList extends React.Component {
-
-    render() {
-
-        const items = this.props.scansList.map((scan,i) => {
-            return (
-                <div
-                    className="ScanListItem"
-                    key={i}
-                >
-                    {scan.name}
-                    <div className="UserName">
-                        by {scan.userName}
-                    </div>
-                </div>
-            );
-        });
-
-        return (
-            <div>
-                <div className="Header">
-                    Scans:
-                </div>
-                <div className="ScanList">
-                    {items}
-                </div>
-            </div>
         );
     }
 }
 
-export default ScanList;*/
-
+export default ScanList;
