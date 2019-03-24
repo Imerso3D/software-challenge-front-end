@@ -5,26 +5,28 @@ import './ScanList.css'
 class ScanList extends React.Component {
 
     render() {
+
+        const items = this.props.scansList.map((scan,i) => {
+            return (
+                <div
+                    className="ScanListItem"
+                    key={i}
+                >
+                    {scan.name}
+                    <div className="UserName">
+                        by {scan.userName}
+                    </div>
+                </div>
+            );
+        });
+
         return (
             <div>
                 <div className="Header">
                     Scans:
                 </div>
                 <div className="ScanList">
-                    {this.props.scans.map((scan, i) => {
-                        const user = this.props.users.find(u => u.id === scan.scannedByUserId);
-                        return (
-                            <div
-                                className="ScanListItem"
-                                key={i}
-                            >
-                                {scan.name}
-                                <div className="UserName">
-                                    by {user.name}
-                                </div>
-                            </div>
-                        );
-                    })}
+                    {items}
                 </div>
             </div>
         );

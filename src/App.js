@@ -7,12 +7,12 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <header className="App-header">
-                    Software Challenge
-                </header>
-                <ScanContainer />
-            </div>
-        );
+            <header className="App-header">
+            Sortable list of scans
+        </header>
+        <ScanContainer />
+        </div>
+    );
     }
 }
 
