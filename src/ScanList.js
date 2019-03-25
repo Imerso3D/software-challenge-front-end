@@ -115,8 +115,8 @@ class ScanList extends React.Component {
     toSubmitAddingItem() {
         const id = uuid.v4();
         this.setState(prevState => ({
-                temporaryItem: {id,...prevState.temporaryItem},
-                scansList: [...prevState.scansList,this.state.temporaryItem],
+                temporaryItem: {id, ...prevState.temporaryItem},
+                scansList: [...prevState.scansList, this.state.temporaryItem],
                 isModalOpen: false
             })
         );
@@ -131,6 +131,17 @@ class ScanList extends React.Component {
         } = this.state;
 
         console.log('scansList: ', scansList);
+
+        const tableLabels = (
+            <tr className="bg-secondary">
+                <td>Id</td>
+                <td>Scan name</td>
+                <td>User name</td>
+                <td>Max elevation</td>
+                <td>Min elevation</td>
+                <td>Edit</td>
+            </tr>
+        );
         const items = scansList.map((scan, index) =>
             <tr key={index}>
                 <td>{index + 1}</td>
@@ -171,27 +182,29 @@ class ScanList extends React.Component {
 
         return (
             <React.Fragment>
-                <Button onClick={this.modalShow} className="btn btn-primary">Add new scan</Button>
-                {addNewScan}
-                <row>
-                    <Button onClick={() => this.sortScanList(scansList, 'name', false, isReverse,)}
-                            className="btn btn-primary">Sort by
-                        Name</Button>
-                    <Button onClick={() => this.sortScanList(scansList, 'userName', false, isReverse)}
-                            className="btn btn-primary">Sort by
-                        Username
-                    </Button>
-                    <Button onClick={() => this.sortScanList(scansList, 'elevationMin', true, isReverse)}
-                            className="btn btn-primary">Sort by
-                        MinElevation
-                    </Button>
-                    <Button onClick={() => this.sortScanList(scansList, 'elevationMax', true, isReverse)}
-                            className="btn btn-primary">Sort by
-                        MaxElevation
-                    </Button>
-                </row>
+                <div className="btn-toolbar">
+                    <div className="btn-group mr-5">
+                        <Button className="btn btn-primary btn-toolbar" onClick={this.modalShow}>Add new scan</Button>
+                        {addNewScan}
+                    </div>
+                    <div className="btn-group mr-5">
+                        <Button
+                            onClick={() => this.sortScanList(scansList, 'name', false, isReverse,)}
+                            className="btn btn-info">Sort by Name</Button>
+                        <Button onClick={() => this.sortScanList(scansList, 'userName', false, isReverse)}
+                                className="btn btn-info">Sort by Username
+                        </Button>
+                        <Button onClick={() => this.sortScanList(scansList, 'elevationMin', true, isReverse)}
+                                className="btn btn-info">Sort by MinElevation
+                        </Button>
+                        <Button onClick={() => this.sortScanList(scansList, 'elevationMax', true, isReverse)}
+                                className="btn btn-info">Sort by MaxElevation
+                        </Button>
+                    </div>
+                </div>
                 <table className={"table"}>
                     <tbody>
+                    {tableLabels}
                     {items}
                     </tbody>
                 </table>
