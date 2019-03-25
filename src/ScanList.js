@@ -27,6 +27,8 @@ class ScanList extends React.Component {
             }
         };
         this.toItemChange = this.toItemChange.bind(this);
+        this.toAddItem = this.toAddItem.bind(this);
+        this.toSubmitAddingItem = this.toSubmitAddingItem.bind(this);
     };
 
 
@@ -63,15 +65,6 @@ class ScanList extends React.Component {
         this.setState({isModalOpen: false})
     };
 
-    toFormUpdate() {
-        return e => {
-            const field = e.target.name;
-            const {form} = this.state;
-            form[field] = e.target.value;
-            this.setState({form})
-        }
-    }
-
     toModalHide() {
         return () => {
             let {scansList} = this.state;
@@ -82,14 +75,6 @@ class ScanList extends React.Component {
             this.setState({scansList})
         }
     }
-
-    /*toModalShow() {
-        return e => {
-            e.preventDefault();
-
-            this.setState({showModal: true})
-        }
-    }*/
 
     toEditItem(selectedItem) {
         return e => {
@@ -128,13 +113,12 @@ class ScanList extends React.Component {
     }
 
     toSubmitAddingItem() {
-        let {scansList, ...temporaryItem} = this.state;
-        temporaryItem.id = uuid.v4();
-        scansList.assign(temporaryItem);
-        this.setState({
-                temporaryItem,
-                scansList
-            }
+        const id = uuid.v4();
+        this.setState(prevState => ({
+                temporaryItem: {id,...prevState.temporaryItem},
+                scansList: [...prevState.scansList,this.state.temporaryItem],
+                isModalOpen: false
+            })
         );
     }
 
