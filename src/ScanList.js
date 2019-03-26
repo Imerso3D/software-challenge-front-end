@@ -1,34 +1,44 @@
-import React from 'react';
+import React, {useReducer} from 'react';
 import './ScanList.css'
+import MUIDataTable from "mui-datatables";
+import {columnsOptions, tableOptions} from './listOptions';
+
+const getUserName = (users, scan) => {
+    const user = users.find(u => u.id === scan.scannedByUserId);
+    return {userName: user.name, userId: user.id};
+};
 
 
-class ScanList extends React.Component {
-
-    render() {
-        return (
-            <div>
-                <div className="Header">
-                    Scans:
-                </div>
-                <div className="ScanList">
-                    {this.props.scans.map((scan, i) => {
-                        const user = this.props.users.find(u => u.id === scan.scannedByUserId);
-                        return (
-                            <div
-                                className="ScanListItem"
-                                key={i}
-                            >
-                                {scan.name}
-                                <div className="UserName">
-                                    by {user.name}
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        );
+const reducer = (state, action) => {
+    switch (action.type) {
+        case "update":
+            return {...state};
+        case "add":
+            return {...state};
+        default:
+            return state;
     }
+};
+
+function ScanList(props) {
+    const [{scans, users}, dispatch] = useReducer(reducer, props);
+
+    let tableData = scans.map(scan => Object.assign({}, {...scan}, {...getUserName(users, scan)}));
+
+    return (
+        <div>
+            <div className="Header">
+                Scans:
+            </div>
+            <div className="ScanList">
+                <MUIDataTable
+                    data={tableData}
+                    columns={columnsOptions}
+                    options={tableOptions}
+                />
+            </div>
+        </div>
+    );
 }
 
 export default ScanList;
