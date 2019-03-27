@@ -1,7 +1,9 @@
-import React, {useReducer} from 'react';
+import React, {useState, useReducer} from 'react';
 import './ScanList.css'
 import MUIDataTable from "mui-datatables";
 import {columnsOptions, tableOptions} from './listOptions';
+import Modal from "@material-ui/core/es/Modal/Modal";
+import ScanEdit from "./ScanEdit";
 
 const getUserName = (users, scan) => {
     const user = users.find(u => u.id === scan.scannedByUserId);
@@ -23,6 +25,16 @@ const reducer = (state, action) => {
 function ScanList(props) {
     const [{scans, users}, dispatch] = useReducer(reducer, props);
 
+    const [isModalOpened, setModalOpen] = useState(false);
+    const [editMode, setEditMode] = useState('');
+    const [scanToEdit, setScanToEdit] = useState({});
+
+    const openEditMode = (initialState, actionType) => {
+        setScanToEdit(initialState);
+        setEditMode(actionType);
+        setModalOpen(true);
+    };
+
     let tableData = scans.map(scan => Object.assign({}, {...scan}, {...getUserName(users, scan)}));
 
     return (
@@ -33,10 +45,23 @@ function ScanList(props) {
             <div className="ScanList">
                 <MUIDataTable
                     data={tableData}
-                    columns={columnsOptions}
-                    options={tableOptions}
+                    columns={columnsOptions(openEditMode)}
+                    options={tableOptions(openEditMode)}
                 />
             </div>
+            <Modal open={isModalOpened}
+                   onClose={() => setModalOpen(false)}
+            >
+                <ScanEdit scan={scanToEdit}
+                          users={users}
+                          editFunction={
+                              (scan) => {
+                                  dispatch({type: editMode, scan});
+                                  setModalOpen(false)
+                              }}
+                />
+            </Modal>
+
         </div>
     );
 }

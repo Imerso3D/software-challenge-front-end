@@ -2,8 +2,9 @@ import React from 'react';
 
 import CustomToolbar from "./CustomToolbar";
 import Button from '@material-ui/core/Button';
+import Scan from './Scan';
 
-export const columnsOptions = [
+export const columnsOptions = (openEditMode) => [
     {
         name: "name",
         label: "Name",
@@ -52,7 +53,8 @@ export const columnsOptions = [
             customBodyRender: (value, tableMeta, updateValue) => {
                 return (
                     <Button color="primary"
-                            onClick={() => console.log({v: value, t: tableMeta, u: updateValue})}
+                            onClick={() => openEditMode(extractScanData(tableMeta.rowData), "update")
+                            }
                     >Edit</Button>
                 );
             },
@@ -60,11 +62,19 @@ export const columnsOptions = [
     },
 ];
 
-export const tableOptions = {
-    selectableRows: false,
-    customToolbar: () => {
-        return (
-            <CustomToolbar/>
-        );
+function extractScanData(row) {
+    let [name, elevationMax, elevationMin, userId, userName] = row;
+    return new Scan(name, elevationMax, elevationMin, userId, userName);
+}
+
+
+export const tableOptions = (openEditMode) => {
+    return {
+        selectableRows: false,
+        customToolbar: () => {
+            return (
+                <CustomToolbar addFunction={() => openEditMode({}, "add")}/>
+            );
+        }
     }
 };
