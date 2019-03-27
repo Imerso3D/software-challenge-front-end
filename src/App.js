@@ -1,19 +1,26 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {MuiThemeProvider,createMuiTheme} from '@material-ui/core';
 import './App.css';
-import ScanContainer from "./ScanContainer";
+import ScanContainer from "./components/ScanContainer";
 
-class App extends Component {
+const theme= createMuiTheme({
+  palette: {
+    type: 'dark',
+  },
+  typography:{
+    useNextVariants: true,
+  }
+});
 
-    render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    Software Challenge
-                </header>
-                <ScanContainer />
-            </div>
-        );
-    }
-}
+const App = () => (
+  <MuiThemeProvider theme={theme}>
+    <div className="App">
+      <header className="App-header">
+        Software Challenge
+      </header>
+      <ScanContainer />
+    </div>
+  </MuiThemeProvider>
+);
 
 export default App;
