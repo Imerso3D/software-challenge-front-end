@@ -1,33 +1,3 @@
-## Imerso Front-end Challenge
-
-Repository containing an incomplete implementation of a "Scan List" web application using React. Help us make it better by completing the tasks below.
-
-
-### Tasks
-
-##### #1 Sorting Scans:
-Create UI and logic to sort the scans by:
-
-- Name
-- Username
-- Elevation
-
-##### #2 Edit Scan:
-Create UI and logic for editing a scan's name and associated user.
-
-##### #3 Add Scan:
-Create UI and logic to create new scans
-
-### General Notes
-
-- The tasks should be delivered by forking this repo and creating a single pull request in the forked repo
-- Don't hesitate asking follow-up questions
-- No need for extensive testing
-- Feel free to use 3rd party libraries
-- Feel free to refactor existing code
-- For bonus points: make the UI look nicer
-
-
 ### Build and run:
 
 Install:
@@ -37,4 +7,8 @@ Run in development mode:
 #### `npm|yarn start `
 
 
-(This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app))
+### Bonus: 
+Create production docker (can take few minutes):
+
+### `chmod u+x buildAndRunDocker.sh`
+### `[sudo] ./buildAndRunDocker.sh`
