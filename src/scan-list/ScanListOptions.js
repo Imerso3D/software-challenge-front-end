@@ -1,10 +1,37 @@
 import React from 'react';
 
-import CustomToolbar from "./CustomToolbar";
+import ScanListToolbar from "./ScanListToolbar";
 import Button from '@material-ui/core/Button';
-import Scan from './Scan';
+import ScanRowData from './ScanRowData';
+import {EDIT_MODE} from './ScanList';
 
-export const columnsOptions = (openEditMode) => [
+const extractScanData = (row) => {
+    const [id, name, elevationMax, elevationMin, userId, userName] = row;
+    return new ScanRowData(id, name, elevationMax, elevationMin, userId, userName);
+};
+
+export const tableOptions = (openScanInEditMode) => {
+    return {
+        selectableRows: false,
+        customToolbar: () => {
+            return (
+                <ScanListToolbar addFunction={() => openScanInEditMode({}, EDIT_MODE.ADD)}/>
+            );
+        }
+    }
+};
+
+
+export const columnsOptions = (openScanInEditMode) => [
+    {
+        name: "id",
+        label: "Scan ID",
+        options: {
+            display: false,
+            filter: false,
+            sort: false,
+        }
+    },
     {
         name: "name",
         label: "Name",
@@ -53,7 +80,7 @@ export const columnsOptions = (openEditMode) => [
             customBodyRender: (value, tableMeta, updateValue) => {
                 return (
                     <Button color="primary"
-                            onClick={() => openEditMode(extractScanData(tableMeta.rowData), "update")
+                            onClick={() => openScanInEditMode(extractScanData(tableMeta.rowData), EDIT_MODE.UPDATE)
                             }
                     >Edit</Button>
                 );
@@ -61,20 +88,3 @@ export const columnsOptions = (openEditMode) => [
         }
     },
 ];
-
-function extractScanData(row) {
-    let [name, elevationMax, elevationMin, userId, userName] = row;
-    return new Scan(name, elevationMax, elevationMin, userId, userName);
-}
-
-
-export const tableOptions = (openEditMode) => {
-    return {
-        selectableRows: false,
-        customToolbar: () => {
-            return (
-                <CustomToolbar addFunction={() => openEditMode({}, "add")}/>
-            );
-        }
-    }
-};

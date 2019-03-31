@@ -1,0 +1,22 @@
+.EditBody {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.SelectField {
+    /*width: 100%;*/
+}
+
+.CardActions {
+    float: right;
+}
+
+.CardInputs > div {
+    margin: 10px;
+}
+
+.CardInputs > input {
+    width: 100px;
+}

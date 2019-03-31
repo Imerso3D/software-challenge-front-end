@@ -4,12 +4,12 @@ import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
 
 
-function CustomToolbar({addFunction}) {
+function ScanListToolbar({addFunction}) {
     return (
         <React.Fragment>
             <Tooltip title={"custom icon"}>
-                <IconButton onClick={() => addFunction()}>
-                    <AddIcon/>
+                <IconButton  className="AddScanButton" onClick={() => addFunction()}>
+                    <AddIcon color="primary"/>
                 </IconButton>
             </Tooltip>
         </React.Fragment>
@@ -17,4 +17,4 @@ function CustomToolbar({addFunction}) {
 
 }
 
-export default CustomToolbar;
+export default ScanListToolbar;

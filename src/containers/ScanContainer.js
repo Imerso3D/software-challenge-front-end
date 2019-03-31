@@ -1,6 +1,6 @@
 import React from 'react';
-import ScanList from './ScanList';
-import {createScanData, createUserData} from './data'
+import ScanList from '../scan-list/ScanList';
+import {createScanData, createUserData} from '../data'
 
 
 class ScanContainer extends React.Component {
