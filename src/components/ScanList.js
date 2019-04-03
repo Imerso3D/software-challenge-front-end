@@ -4,7 +4,7 @@ import {Table, Button} from 'antd'
 
 import EditView from './EditView'
 
-import {updateScan} from 'redux/actions'
+import {updateScan, createScan} from 'redux/actions'
 
 import './ScanList.css'
 
@@ -57,10 +57,21 @@ const ScanList = ({scanData, users, updateScan}) => {
     closeEdit()
   }
 
+  const newScan = () => setEditing({})
+
   return (
     <>
       <Table
-        title={() => 'Scans:'}
+        title={() => (
+          <div className="scans-header">
+            <div>Scans:</div>
+            <Button
+              onClick={newScan}
+            >
+              New scan
+            </Button>
+          </div>
+        )}
         dataSource={scanData}
         columns={columns}
         rowKey="id"
@@ -94,7 +105,12 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => ({
   updateScan: (scan) => {
-    dispatch(updateScan(scan))
+    if (scan.id) {
+      dispatch(updateScan(scan))
+    }
+    else {
+      dispatch(createScan(scan))
+    }
   },
 })
 

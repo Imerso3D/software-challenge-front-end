@@ -6,3 +6,10 @@ export const updateScan = (scan) => {
     scan,
   }
 }
+
+export const createScan = (scan) => {
+  return {
+    type: actionTypes.CREATE_SCAN,
+    scan,
+  }
+}

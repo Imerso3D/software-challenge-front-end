@@ -3,3 +3,9 @@
   max-width: 600px;
   margin: 0 auto;
 }
+
+.scans-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

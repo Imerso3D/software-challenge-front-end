@@ -6,9 +6,11 @@ const EditForm = ({form, scan, users, onDoneEditing, onCancel}) => {
     getFieldDecorator
   } = form
 
+  const isExisting = !!scan.id
+
   return (
     <Modal
-      title="Edit scan"
+      title={isExisting ? 'Edit scan' : 'New scan'}
       visible={true}
       onOk={onDoneEditing}
       onCancel={onCancel}
@@ -24,9 +26,12 @@ const EditForm = ({form, scan, users, onDoneEditing, onCancel}) => {
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('scannedByUserId', {
+            rules: [{ required: true, message: 'Author is required' }],
             initialValue: scan.scannedByUserId,
           })(
-            <Select>
+            <Select
+              placeholder="Select an author"
+            >
               {users.map(user => (
                 <Select.Option
                   key={user.id}
@@ -38,6 +43,24 @@ const EditForm = ({form, scan, users, onDoneEditing, onCancel}) => {
             </Select>
           )}
         </Form.Item>
+        {!isExisting && (
+          <>
+            <Form.Item>
+              {getFieldDecorator('elevationMin', {
+                rules: [{ required: true, message: 'Minimum elevation is required' }],
+              })(
+                <Input placeholder="Minimum elevation" />
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('elevationMax', {
+                rules: [{ required: true, message: 'Maximum elevation is required' }],
+              })(
+                <Input placeholder="Maximum elevation" />
+              )}
+            </Form.Item>
+          </>
+        )}
       </Form>
     </Modal>
   )
