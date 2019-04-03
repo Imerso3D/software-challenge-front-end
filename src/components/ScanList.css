@@ -1,0 +1,5 @@
+.scan-list {
+  font-size: calc(10px + 1vmin);
+  max-width: 600px;
+  margin: 0 auto;
+}

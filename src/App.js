@@ -1,5 +1,6 @@
 import React from 'react'
-import ScanList from "./ScanList"
+
+import ScanList from "./components/ScanList"
 
 import './app.css'
 
