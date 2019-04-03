@@ -53,7 +53,7 @@ export const createScanData = () => [
         elevationMin: 9.0,
         scannedByUserId: 2,
     },
-];
+]
 
 
 export const createUserData = () => [
@@ -70,7 +70,4 @@ export const createUserData = () => [
         id: 2,
         name: 'Rich Hickey',
     },
-];
-
-
-
+]
