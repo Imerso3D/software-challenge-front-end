@@ -1,17 +1,26 @@
 import React from 'react'
+import {Layout, Breadcrumb} from 'antd'
 
 import ScanList from "./components/ScanList"
 
-import './app.css'
+import './app.scss'
 
 const App = () => {
   return (
-    <div className="app">
-      <header className="app-header">
+    <Layout className="app">
+      <Layout.Header className="app-header">
         Software Challenge
-      </header>
-      <ScanList />
-    </div>
+      </Layout.Header>
+      <Layout.Content className="app-content">
+        <Breadcrumb className="app-breadcrumb">
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>Scans</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="scans-container">
+          <ScanList />
+        </div>
+      </Layout.Content>
+    </Layout>
   )
 }
 

@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Table, Button} from 'antd'
 
@@ -6,7 +7,7 @@ import EditView from './EditView'
 
 import {updateScan, createScan} from 'redux/actions'
 
-import './ScanList.css'
+import './ScanList.scss'
 
 const ScanList = ({scanData, users, updateScan}) => {
   const [editing, setEditing] = useState(null)
@@ -64,7 +65,7 @@ const ScanList = ({scanData, users, updateScan}) => {
       <Table
         title={() => (
           <div className="scans-header">
-            <div>Scans:</div>
+            <h1>Scans:</h1>
             <Button
               onClick={newScan}
             >
@@ -74,6 +75,7 @@ const ScanList = ({scanData, users, updateScan}) => {
         )}
         dataSource={scanData}
         columns={columns}
+        pageSize={10}
         rowKey="id"
         className="scan-list"
       />
@@ -87,6 +89,12 @@ const ScanList = ({scanData, users, updateScan}) => {
       )}
     </>
   )
+}
+
+ScanList.propTypes = {
+  scanData: PropTypes.array.isRequired,
+  users: PropTypes.array.isRequired,
+  updateScan: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {
@@ -105,7 +113,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => ({
   updateScan: (scan) => {
-    if (scan.id) {
+    if (scan.id !== undefined) {
       dispatch(updateScan(scan))
     }
     else {

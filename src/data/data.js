@@ -1,3 +1,5 @@
+import shortid from 'shortid'
+
 export const createScanData = () => [
   {
     name: 'Concrete Slab #1',
@@ -53,7 +55,7 @@ export const createScanData = () => [
     elevationMin: 9.0,
     scannedByUserId: 2,
   },
-].map((d, i) => ({...d, id: i}))
+].map(d => ({...d, id: shortid()}))
 
 
 export const createUserData = () => [

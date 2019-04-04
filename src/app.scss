@@ -1,0 +1,23 @@
+.app {
+  .app-header {
+    color: #fff;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+  }
+
+  .app-content {
+    max-width: 800px;
+    margin: 65px auto;
+
+    .app-breadcrumb {
+       margin: 16px 0;
+    }
+  }
+
+  .scans-container {
+    background-color: #fff;
+    padding: 0px 30px;
+    margin-bottom: 30px;
+  }
+}
