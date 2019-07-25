@@ -1,9 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import 'index.css';
-import App from 'App/App';
+import React from "react";
+import { render } from "react-dom";
+import "index.css";
+import "assets/styles/theme.css";
+import App from "App/App";
 
-const REACT_ROOT = document.getElementById('root')
+const REACT_ROOT = document.getElementById("root");
 
-ReactDOM.render(<App />, REACT_ROOT);
-
+if (REACT_ROOT) {
+  render(<App />, REACT_ROOT);
+} else {
+  throw new Error("Browser document is broken (:");
+}
