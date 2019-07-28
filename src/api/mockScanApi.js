@@ -1,4 +1,6 @@
-export const createScanData = () => [
+import delay from "./mockDelay";
+
+let scans = [
   {
     name: "Concrete Slab #1",
     elevationMax: 3.2,
@@ -55,17 +57,32 @@ export const createScanData = () => [
   }
 ];
 
-export const createUserData = () => [
-  {
-    id: 0,
-    name: "Linus Torvalds"
-  },
-  {
-    id: 1,
-    name: "Guido van Rossum"
-  },
-  {
-    id: 2,
-    name: "Rich Hickey"
+class ScanApi {
+  static getAllScans() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([...scans]);
+      }, delay);
+    });
   }
-];
+
+  static saveScan(scan) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        scans = [...scans, scan];
+        resolve(scan);
+      }, delay);
+    });
+  }
+
+  static deleteScan(scanIndex) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        scans.splice(scanIndex, 1);
+        resolve();
+      }, delay);
+    });
+  }
+}
+
+export default ScanApi;

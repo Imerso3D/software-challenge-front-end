@@ -21,14 +21,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ControlledOpenSelect(props) {
+export default function ControlledOpenSelect({ handleSort }) {
   const classes = useStyles();
   const [sort, setSort] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
   function handleChange(event) {
-    setSort(event.target.name);
-    props.handleSort(event.target.value);
+    setSort(event.target.value);
+    handleSort(event.target.value);
   }
 
   function handleClose() {
@@ -55,7 +55,7 @@ export default function ControlledOpenSelect(props) {
           value={sort}
           onChange={handleChange}
           inputProps={{
-            name: "sort",
+            name: "",
             id: "demo-controlled-open-select"
           }}
         >
