@@ -41,11 +41,8 @@ export default function ControlledOpenSelect({ handleSort }) {
 
   return (
     <form autoComplete="off">
-      <Button className={classes.button} onClick={handleOpen}>
-        Sort:
-      </Button>
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="demo-controlled-open-select">
+        <InputLabel htmlFor="sort-select" style={{ color: "white" }}>
           Sort By...
         </InputLabel>
         <Select
@@ -56,7 +53,7 @@ export default function ControlledOpenSelect({ handleSort }) {
           onChange={handleChange}
           inputProps={{
             name: "",
-            id: "demo-controlled-open-select"
+            id: "sort-select"
           }}
         >
           <MenuItem value={"name"} name={"Name"}>

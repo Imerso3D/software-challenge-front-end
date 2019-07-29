@@ -8,3 +8,7 @@
   color: var(--light);
   padding: 20px;
 }
+
+.App-header {
+  margin: 3rem;
+}

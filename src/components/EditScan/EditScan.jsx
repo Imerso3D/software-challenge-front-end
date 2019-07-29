@@ -3,9 +3,6 @@ import TextField from "@material-ui/core/TextField";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import { getThemeColors } from "utils/color";
-
-const colors = getThemeColors();
 
 function getModalStyle() {
   return {
@@ -27,9 +24,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CreateScan = ({
+const EditScan = ({
   open,
-  createScan,
+  saveScan,
+  scanData,
   handleInputChange,
   handleModalClose,
   handleModalOpen
@@ -39,13 +37,6 @@ const CreateScan = ({
   const [modalStyle] = React.useState(getModalStyle);
   return (
     <div>
-      <Button
-        variant="contained"
-        style={{ background: colors[2] }}
-        onClick={open ? handleModalClose : handleModalOpen}
-      >
-        Create Scan
-      </Button>
       <div>
         <Modal
           style={modalStyle}
@@ -58,7 +49,7 @@ const CreateScan = ({
               required
               id="name"
               label="Name (of Scan)"
-              placeholder="Scan Title"
+              defaultValue={scanData.name}
               className={""}
               margin="normal"
               onChange={handleInputChange}
@@ -68,6 +59,7 @@ const CreateScan = ({
               required
               id="scannedByUserId"
               label="User Name"
+              defaultValue={scanData.scannedByUserId}
               className={""}
               margin="normal"
               onChange={handleInputChange}
@@ -77,7 +69,7 @@ const CreateScan = ({
               required
               id="elevationMax"
               label="Max Elevation"
-              placeholder="8,848 m"
+              defaultValue={scanData.elevationMax}
               className={""}
               margin="normal"
               onChange={handleInputChange}
@@ -86,7 +78,7 @@ const CreateScan = ({
               required
               id="elevationMin"
               label="Min Elevation"
-              placeholder="-10,994 m"
+              defaultValue={scanData.elevationMin}
               className={""}
               margin="normal"
               onChange={handleInputChange}
@@ -94,8 +86,8 @@ const CreateScan = ({
             <Button variant="contained" onClick={handleModalClose}>
               Cancel
             </Button>
-            <Button variant="contained" onClick={createScan}>
-              Create
+            <Button variant="contained" onClick={saveScan}>
+              Submit
             </Button>
           </form>
         </Modal>
@@ -104,4 +96,4 @@ const CreateScan = ({
   );
 };
 
-export default CreateScan;
+export default EditScan;

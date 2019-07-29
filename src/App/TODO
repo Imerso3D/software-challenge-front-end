@@ -1,9 +1,4 @@
-add redux?
-    make call to mock api
-
-make ScanList Uniform with other code styles
 display elevation
 
-use Model instad of hardcode
+validate create to use userID
 
-validate create to use userID 

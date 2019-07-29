@@ -1,21 +1,30 @@
 .Header {
-    margin: 20px auto;
-    max-width: 600px;
-    font-size: calc(10px + 1.5vmin);
+  margin: 20px auto;
+  max-width: 600px;
+  font-size: calc(10px + 1.5vmin);
 }
 
 .ScanList {
-    font-size: calc(10px + 1vmin);
-    max-width: 600px;
-    margin: 0 auto;
-    border-style: solid;
+  font-size: calc(10px + 1vmin);
+  max-width: 600px;
+  margin: 0 auto;
+  border-style: solid;
 }
 
 .ScanListItem {
-    padding: 10px;
+  padding: 10px;
+  border-style: solid;
+  border-bottom: 1px;
 }
 
 .UserName {
-    padding: 10px;
-    font-size: calc(10px + 0.5vmin);
+  padding: 10px;
+  font-size: calc(10px + 0.5vmin);
+}
+
+.editButton {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 1rem;
 }

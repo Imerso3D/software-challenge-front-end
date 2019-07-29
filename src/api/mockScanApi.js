@@ -57,6 +57,12 @@ let scans = [
   }
 ];
 
+// easier to work with scans if they have an id
+scans = scans.map((s, i) => {
+  s.id = "scan" + i;
+  return s;
+});
+
 class ScanApi {
   static getAllScans() {
     return new Promise((resolve, reject) => {
@@ -67,6 +73,17 @@ class ScanApi {
   }
 
   static saveScan(scan) {
+    let index = scans.map(s => s.id).indexOf(scan.id);
+    if (index > -1) {
+      scans.splice(index, 1, scan);
+      console.warn(scan, scans);
+      return new Promise(resolve => {
+        setTimeout(() => {
+          scans = [...scans];
+          resolve(scan);
+        }, delay);
+      });
+    }
     return new Promise(resolve => {
       setTimeout(() => {
         scans = [...scans, scan];

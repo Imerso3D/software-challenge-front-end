@@ -1,5 +1,5 @@
 import React from "react";
-import { ScanList, SortInput, CreateScan } from "components";
+import { ScanList, SortInput, CreateScan, EditScan } from "components";
 import { createUserData } from "data";
 
 import { mockScanApi as scanApi } from "api";
@@ -15,25 +15,53 @@ class ScanContainer extends React.Component {
       elevationMin: null,
       scannedByUserId: null
     },
-    open: false
+    currentScanData: {
+      name: "null",
+      elevationMax: "null",
+      elevationMin: "null",
+      scannedByUserId: 1
+    },
+    openCreate: false,
+    openEdit: false
   };
 
   async componentWillMount() {
     this.setState({ scans: await scanApi.getAllScans() });
   }
 
-  handleInputChange = e => {
+  handleCreateInputChange = e => {
     const scan = { ...this.state.createdScan };
     scan[e.target.id] = e.target.value;
     this.setState({ createdScan: scan });
   };
 
-  handleModalOpen = () => {
-    this.setState({ open: true });
+  handleEditInputChange = e => {
+    const scan = { ...this.state.currentScanData };
+    scan[e.target.id] = e.target.value;
+    this.setState({ currentScanData: scan });
   };
 
-  handleModalClose = () => {
-    this.setState({ open: false });
+  handleCreateModalOpen = () => {
+    this.setState({ openCreate: true });
+  };
+
+  handleCreateModalClose = () => {
+    this.setState({ openCreate: false });
+  };
+
+  handleEditModalOpen = () => {
+    this.setState({ openEdit: true });
+  };
+
+  handleEditModalClose = () => {
+    this.setState({ openEdit: false });
+  };
+
+  handleSelectForEdit = async e => {
+    const scan = this.state.scans[e.target.id];
+
+    await this.setState({ currentScanData: scan });
+    this.handleEditModalOpen();
   };
 
   handleSort = sorter => {
@@ -60,6 +88,30 @@ class ScanContainer extends React.Component {
     return valid;
   }
 
+  handleEditScan = async () => {
+    //validate scan
+    if ("editScanIsValid") {
+      try {
+        await scanApi.saveScan(this.state.currentScanData);
+        this.setState({
+          scans: await scanApi.getAllScans(),
+          currentScanData: {
+            name: null,
+            elevationMax: null,
+            elevationMin: null,
+            scannedByUserId: null
+          },
+          openEdit: false
+        });
+      } catch (e) {
+        console.error("e");
+      }
+    } else {
+      // TODO UI
+      console.warn("Invalid Submission");
+    }
+  };
+
   handleCreateScan = async () => {
     //validate scan
     if (this.createScanIsValid()) {
@@ -73,7 +125,7 @@ class ScanContainer extends React.Component {
             elevationMin: null,
             scannedByUserId: null
           },
-          open: false
+          openCreate: false
         });
       } catch (e) {
         console.error("e");
@@ -87,18 +139,29 @@ class ScanContainer extends React.Component {
   render() {
     return (
       <div>
+        <CreateScan
+          createScan={this.handleCreateScan}
+          handleModalClose={this.handleCreateModalClose}
+          handleModalOpen={this.handleCreateModalOpen}
+          handleInputChange={this.handleCreateInputChange}
+          open={this.state.openCreate}
+        />
+        <EditScan
+          saveScan={this.handleEditScan}
+          scanData={this.state.currentScanData}
+          handleModalClose={this.handleEditModalClose}
+          handleModalOpen={this.handleEditModalOpen}
+          handleInputChange={this.handleEditInputChange}
+          open={this.state.openEdit}
+        />
+        <ScanList
+          scans={this.state.scans}
+          users={this.state.users}
+          selectForEdit={this.handleSelectForEdit}
+        />
         <div>
           <SortInput sorter={this.state.sorter} handleSort={this.handleSort} />
         </div>
-
-        <CreateScan
-          createScan={this.handleCreateScan}
-          handleModalClose={this.handleModalClose}
-          handleModalOpen={this.handleModalOpen}
-          handleInputChange={this.handleInputChange}
-          open={this.state.open}
-        />
-        <ScanList scans={this.state.scans} users={this.state.users} />
       </div>
     );
   }
