@@ -7,8 +7,6 @@ import editLogo from "assets/static/img/edit.png";
 const colors = getThemeColors().reverse();
 
 const ScanList = ({ scans, users, selectForEdit }) => {
-  let display = " hide";
-
   return (
     <div>
       <div className="Header">Scans:</div>
